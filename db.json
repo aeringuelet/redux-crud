@@ -1,0 +1,19 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Book",
+            "price": 77
+        },
+        {
+            "id": 2,
+            "name": "Another Book",
+            "price": 25
+        },
+        {
+            "id": 3,
+            "name": "A GreatvBook",
+            "price": 130
+        }
+    ]
+}
