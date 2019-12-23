@@ -4,7 +4,10 @@ import {
     ADD_PRODUCT_SUCCESS,
     GET_PRODUCTS_START,
     GET_PRODUCTS_ERROR,
-    GET_PRODUCTS_SUCCESS
+    GET_PRODUCTS_SUCCESS,
+    DELETE_PRODUCT_ERROR,
+    DELETE_PRODUCT_GET,
+    DELETE_PRODUCT_SUCCESS
 } from '../types';
 
 import axiosClient from '../config/axios';
@@ -64,4 +67,32 @@ export const getProductsSuccess = products => ({
 
 export const getProductsError = () => ({
     type: GET_PRODUCTS_ERROR
+})
+
+export const deleteProductAction = id => {
+    return dispatch => {
+        dispatch(getProductToDelete());
+
+        axiosClient.delete(`/products/${id}`)
+            .then(response => {
+                dispatch(deleteProductSuccess(id));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(deleteProductError());
+            })
+    }
+}
+
+export const getProductToDelete = () => ({
+    type: DELETE_PRODUCT_GET
+})
+
+export const deleteProductSuccess = id => ({
+    type: DELETE_PRODUCT_SUCCESS,
+    payload: id
+})
+
+export const deleteProductError = () => ({
+    type: DELETE_PRODUCT_ERROR
 })
