@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 
+import { createNewProductAction } from '../actions/productsAction';
+import { useDispatch } from 'react-redux';
+
 const NewProduct = () => {
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
 
+    const dispatch = useDispatch();
+    const addProduct = product => dispatch(createNewProductAction(product));
+
     const submitNewProduct = e => {
         e.preventDefault();
+
+        addProduct({
+            name, price
+        });
 
         if(name.trim() === '' || price.trim() === '') {
             
