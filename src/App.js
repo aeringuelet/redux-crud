@@ -7,7 +7,7 @@ import store from './store';
 
 import NewProduct from './components/NewProduct';
 import EditProduct from './components/EditProduct';
-import Product from './components/Product';
+import Products from './components/Products';
 import Header from './components/Header';
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <Header />
         <div className="container">
           <Switch>
-            <Route exact path="/" component={Product} />
+            <Route exact path="/" component={Products} />
             <Route exact path="/products/new" component={NewProduct} />
             <Route exact path="/products/edit/:id" component={EditProduct} />
 

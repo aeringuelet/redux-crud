@@ -1,8 +1,12 @@
 import {
     ADD_PRODUCT,
     ADD_PRODUCT_ERROR,
-    ADD_PRODUCT_SUCCESS
+    ADD_PRODUCT_SUCCESS,
+    GET_PRODUCTS_START,
+    GET_PRODUCTS_ERROR,
+    GET_PRODUCTS_SUCCESS
 } from '../types';
+
 import axiosClient from '../config/axios';
 
 export function createNewProductAction(product) {
@@ -11,7 +15,6 @@ export function createNewProductAction(product) {
 
         axiosClient.post('/products', product)
             .then(response => {
-                console.log(response);
                 dispatch(addProductSuccess(product));
             })
             .catch(error => {
@@ -33,4 +36,32 @@ export const addProductSuccess = product => ({
 
 export const addProductError = error => ({
     type: ADD_PRODUCT_ERROR
+})
+
+export function getProductsAction() {
+    return dispatch => {
+        dispatch(getProductsStart());
+
+        axiosClient.get("/products")
+            .then(response => {
+                dispatch(getProductsSuccess(response.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(getProductsError())
+            })
+    }
+}
+
+export const getProductsStart = () => ({
+    type: GET_PRODUCTS_START
+})
+
+export const getProductsSuccess = products => ({
+    type: GET_PRODUCTS_SUCCESS,
+    payload: products
+})
+
+export const getProductsError = () => ({
+    type: GET_PRODUCTS_ERROR
 })

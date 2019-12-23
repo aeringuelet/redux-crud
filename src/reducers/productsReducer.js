@@ -1,7 +1,10 @@
 import {
     ADD_PRODUCT,
     ADD_PRODUCT_ERROR,
-    ADD_PRODUCT_SUCCESS
+    ADD_PRODUCT_SUCCESS,
+    GET_PRODUCTS_START,
+    GET_PRODUCTS_ERROR,
+    GET_PRODUCTS_SUCCESS
 } from '../types';
 
 const initialState = {
@@ -29,6 +32,28 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 error: true 
+            }
+
+        case GET_PRODUCTS_START:
+            return {
+                ...state, 
+                loading: true
+            }
+
+        case GET_PRODUCTS_SUCCESS:
+            return {
+                ...state, 
+                loading: false,
+                error: false,
+                products: action.payload
+            }
+
+        case GET_PRODUCTS_ERROR:
+            return {
+                ...state, 
+                loading: false,
+                error: true,
+                products: []
             }
 
         default:

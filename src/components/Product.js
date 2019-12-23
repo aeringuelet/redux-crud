@@ -1,22 +1,24 @@
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Product = () => {
-	return (
-		<React.Fragment>
-			<h2 className="text-center my-5">Products</h2>
-
-			<table className="table table-striped">
-				<thead className="bg-primary table-dark">
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Price</th>
-						<th scope="col">Actions</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-		</React.Fragment>
-	);
-};
-
+const Product = ({ data }) => {
+    return (
+        <tr>
+            <td>{data.name}</td>
+            <td><span className="font-weight-bold">$ {data.price}</span></td>
+            <td className="acciones">
+                <Link 
+                    to={`/products/edit/${data.id}`} 
+                    className="btn btn-primary mr-2"
+                >
+                    Edit
+                </Link>
+                <button className="btn btn-danger">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    );
+}
+ 
 export default Product;

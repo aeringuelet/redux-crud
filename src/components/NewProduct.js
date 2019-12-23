@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 import { createNewProductAction } from '../actions/productsAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { validateFormAction, validationSuccess, validationError } from '../actions/validationActions';
 
-const NewProduct = () => {
+const NewProduct = ({ history }) => {
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -12,8 +12,10 @@ const NewProduct = () => {
     const dispatch = useDispatch();
     const addProduct = product => dispatch(createNewProductAction(product));
     const validateForm = () => dispatch(validateFormAction());
-    const validateSuccess = () => dispatch(validationSuccess())
-    const validateError = () => dispatch(validationError())
+    const validateSuccess = () => dispatch(validationSuccess());
+    const validateError = () => dispatch(validationError());
+
+    const error = useSelector(state => state.validation.error);
 
     const submitNewProduct = e => {
         e.preventDefault();
@@ -33,6 +35,8 @@ const NewProduct = () => {
 
         setPrice('');
         setName('');
+
+        history.push("/");
     }
 
     return (
@@ -65,7 +69,12 @@ const NewProduct = () => {
 
                             <button type="submit" className="btn btn-primary font-weight-bold text-uppercase d-block w-100">Add</button>
                         </form>
-        
+
+                        {error ? 
+                            <div className="font-weight-bold alert alert-danger text-center mt-4">
+                                All fields are mandatory
+                            </div> : null
+                            }
                     </div>
                 </div>
             </div>
