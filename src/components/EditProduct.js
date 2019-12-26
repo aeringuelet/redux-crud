@@ -1,13 +1,18 @@
 import React, { useEffect, Fragment, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editProductAction, editedProductAction } from '../actions/productsAction';
+import { validateFormAction, validationSuccess, validationError } from '../actions/validationActions';
 
-const EditProduct = ({ match }) => {
+const EditProduct = ({ match, history }) => {
     const dispatch = useDispatch();
     const { id } = match.params;
 
     const nameRef = useRef('');
     const priceRef = useRef('');
+
+    const validateForm = () => dispatch(validateFormAction());
+    const validateSuccess = () => dispatch(validationSuccess());
+    const validateError = () => dispatch(validationError());
 
     useEffect(() => {
         dispatch(editProductAction(id));
@@ -21,11 +26,22 @@ const EditProduct = ({ match }) => {
     const editProductSubmit = e => {
         e.preventDefault();
 
+        validateForm();
+
+        if(nameRef.current.value.trim() === '' || priceRef.current.value.trim() === '') {
+            validateError();
+            return;
+        }
+
+        validateSuccess();
+
         dispatch(editedProductAction({
             id,
             name: nameRef.current.value,
             price: priceRef.current.value
         }));
+
+        history.push('/');
     }
 
     return (
