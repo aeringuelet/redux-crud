@@ -74,7 +74,7 @@ const NewProduct = ({ history }) => {
                             <div className="font-weight-bold alert alert-danger text-center mt-4">
                                 All fields are mandatory
                             </div> : null
-                            }
+                        }
                     </div>
                 </div>
             </div>

@@ -7,13 +7,20 @@ import {
     GET_PRODUCTS_SUCCESS,
     DELETE_PRODUCT_ERROR,
     DELETE_PRODUCT_GET,
-    DELETE_PRODUCT_SUCCESS
+    DELETE_PRODUCT_SUCCESS,
+    EDIT_PRODUCT_GET,
+    EDIT_PRODUCT_ERROR,
+    EDIT_PRODUCT_SUCCESS,
+    EDITED_PRODUCT_START,
+    EDITED_PRODUCT_ERROR,
+    EDITED_PRODUCT_SUCCESS
 } from '../types';
 
 const initialState = {
     products: [],
     error: null,
-    loading: false
+    loading: false,
+    product: {}
 };
 
 export default function(state = initialState, action) {
@@ -40,7 +47,8 @@ export default function(state = initialState, action) {
         case GET_PRODUCTS_START:
             return {
                 ...state, 
-                loading: true
+                loading: true,
+                product: {}
             }
 
         case GET_PRODUCTS_SUCCESS:
@@ -48,7 +56,8 @@ export default function(state = initialState, action) {
                 ...state, 
                 loading: false,
                 error: false,
-                products: action.payload
+                products: action.payload,
+                product: {}
             }
 
         case GET_PRODUCTS_ERROR:
@@ -56,7 +65,8 @@ export default function(state = initialState, action) {
                 ...state, 
                 loading: false,
                 error: true,
-                products: []
+                products: [],
+                product: {}
             }
 
         case DELETE_PRODUCT_GET:
@@ -75,6 +85,44 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 error: true
+            }
+
+        case EDIT_PRODUCT_GET:
+            return {
+                ...state,
+                error: null
+            }
+
+        case EDIT_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: true
+            }
+
+        case EDIT_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                product: action.payload
+            }  
+
+        case EDITED_PRODUCT_START:
+            return {
+                ...state,
+                error: null
+            }
+
+        case EDITED_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: true
+            }
+
+        case EDITED_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                products: state.products.map(prod => (prod.id === action.payload.id ? prod = action.payload : prod))
             }
 
         default:

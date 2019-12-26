@@ -7,7 +7,13 @@ import {
     GET_PRODUCTS_SUCCESS,
     DELETE_PRODUCT_ERROR,
     DELETE_PRODUCT_GET,
-    DELETE_PRODUCT_SUCCESS
+    DELETE_PRODUCT_SUCCESS,
+    EDIT_PRODUCT_GET,
+    EDIT_PRODUCT_SUCCESS,
+    EDIT_PRODUCT_ERROR,
+    EDITED_PRODUCT_SUCCESS,
+    EDITED_PRODUCT_ERROR,
+    EDITED_PRODUCT_START
 } from '../types';
 
 import axiosClient from '../config/axios';
@@ -95,4 +101,60 @@ export const deleteProductSuccess = id => ({
 
 export const deleteProductError = () => ({
     type: DELETE_PRODUCT_ERROR
+})
+
+export const editProductAction = id => {
+    return dispatch => {
+        dispatch(getProductToEdit());
+
+        axiosClient.get(`/products/${id}`)
+            .then(response => {
+                dispatch(editProductSuccess(response.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(editProductError());
+            })
+    }
+}
+
+export const getProductToEdit = () => ({
+    type: EDIT_PRODUCT_GET
+})
+
+export const editProductSuccess = product => ({
+    type: EDIT_PRODUCT_SUCCESS,
+    payload: product
+})
+
+export const editProductError = () => ({
+    type: EDIT_PRODUCT_ERROR
+})
+
+export const editedProductAction = product => {
+    return dispatch => {
+        dispatch(editedProductStart());
+
+        axiosClient.put(`/products/${product.id}`, product)
+            .then(response => {
+                dispatch(editedProductSuccess(response.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(editedProductError());
+            })
+    }
+}
+
+export const editedProductStart = () => ({
+    type: EDITED_PRODUCT_START
+})
+
+export const editedProductSuccess = product => ({
+    type: EDITED_PRODUCT_SUCCESS,
+    payload: product
+})
+
+export const editedProductError = () => ({
+    type: EDITED_PRODUCT_ERROR
 })
